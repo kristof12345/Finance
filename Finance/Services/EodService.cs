@@ -12,14 +12,12 @@ namespace Finance.Services
     {
         private readonly HttpClient client;
         private readonly string token;
-        private readonly string size;
         private readonly DateTime limit;
 
         public EodService(EodSettings settings)
         {
             client = new HttpClient { BaseAddress = new Uri("https://eodhistoricaldata.com/api/eod/") };
             token = settings.Token;
-            size = settings.Size;
             limit = settings.Limit;
         }
 
@@ -32,7 +30,7 @@ namespace Finance.Services
             try
             {
                 var response = await client.GetAsync(symbol + "?" + query);
-                var data = await response.Content.ReadAsAsync<List<DailyPrice>>();
+                var data = await response.Content.ReadAsAsync<List<EodPrice>>();
                 return data.Where(p => p.Date >= limit).OrderByDescending(p => p.Date).ToIndicatorPriceModel(symbol);
             }
             catch (Exception)
@@ -50,7 +48,7 @@ namespace Finance.Services
             try
             {
                 var response = await client.GetAsync(symbol + "?" + query);
-                var data = await response.Content.ReadAsAsync<List<DailyPrice>>();
+                var data = await response.Content.ReadAsAsync<List<EodPrice>>();
                 return data.OrderByDescending(p => p.Date).FirstOrDefault().ToIndicatorPriceModel(symbol);
             }
             catch (Exception)

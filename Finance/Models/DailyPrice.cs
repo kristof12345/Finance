@@ -28,6 +28,19 @@ namespace Finance.Models
         [JsonPropertyName("8. split coefficient")]
         [JsonConverter(typeof(DecimalParser))]
         public decimal Split { get; set; }
+    }
+
+    public class EodPrice
+    {
+        public decimal Open { get; set; }
+
+        public decimal High { get; set; }
+
+        public decimal Low { get; set; }
+
+        public decimal Close { get; set; }
+
+        public long Volume { get; set; }
 
         public DateTime Date { get; set; }
     }

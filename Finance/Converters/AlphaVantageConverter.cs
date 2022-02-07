@@ -55,12 +55,17 @@ namespace Finance.Converters
             return prices.Select(pair => pair.ToCurrencyPriceModel(symbol, exchangeRates.Latest(pair.Key)));
         }
 
-        public static IndicatorPrice ToIndicatorPriceModel(this DailyPrice dto, string symbol)
+        public static IndicatorPrice ToIndicatorPriceModel(this EodPrice dto, string symbol)
         {
-            return new IndicatorPrice { IndicatorId = symbol, Value = dto.Close, Date = dto.Date.ToUniversalTime() };
+            return new IndicatorPrice
+            {
+                IndicatorId = symbol,
+                Value = dto.Close,
+                Date = DateTime.SpecifyKind(dto.Date, DateTimeKind.Utc)
+            };
         }
 
-        public static IEnumerable<IndicatorPrice> ToIndicatorPriceModel(this IEnumerable<DailyPrice> prices, string symbol)
+        public static IEnumerable<IndicatorPrice> ToIndicatorPriceModel(this IEnumerable<EodPrice> prices, string symbol)
         {
             return prices.Select(p => p.ToIndicatorPriceModel(symbol));
         }
