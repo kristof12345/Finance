@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Waikiki.Common.Application" Version="2.4.7" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Remove="Models\" />
+		<None Remove="Services\" />
+		<None Remove="Settings\" />
+		<None Remove="Interfaces\" />
+		<None Remove="Exceptions\" />
+		<None Remove="Converters\" />
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="Models\" />
+		<Folder Include="Services\" />
+		<Folder Include="Settings\" />
+		<Folder Include="Interfaces\" />
+		<Folder Include="Exceptions\" />
+		<Folder Include="Converters\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="DataSeed\exchange.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+</Project>
