@@ -5,15 +5,15 @@
 [![codecov](https://codecov.io/gh/kristof12345/Finance/branch/master/graph/badge.svg?token=8CorL7rnKs)](https://codecov.io/gh/kristof12345/Finance)
 
 ## AlphaVantage
-Get company overview
-Get historical stock price
-Get daily stock price
-Get historical currency price
-Get daily currency price
+* Get company overview
+* Get historical stock price
+* Get daily stock price
+* Get historical currency price
+* Get daily currency price
 
 ## EOD
-Get historical indicator price
-Get daily indicator price
+* Get historical indicator price
+* Get daily indicator price
 
 ## Finnhub
-Get company news
+* Get company news
