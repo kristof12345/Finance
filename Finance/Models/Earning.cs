@@ -6,17 +6,29 @@ namespace Finance.Models
 {
     public class Earnings
     {
-        [JsonPropertyName("annualEarnings")]
-        public List<Earning> AnnualEarnings { get; set; }
+        [JsonPropertyName("annualReports")]
+        public List<EarningReport> AnnualReports { get; set; }
     }
 
-    public class Earning
+    public class EarningReport
     {
         [JsonPropertyName("fiscalDateEnding")]
         public DateTime Date { get; set; }
 
-        [JsonPropertyName("reportedEPS")]
-        [JsonConverter(typeof(DecimalParser))]
-        public decimal EPS { get; set; }
+        [JsonPropertyName("grossProfit")]
+        [JsonConverter(typeof(LongParser))]
+        public long Profit { get; set; }
+
+        [JsonPropertyName("totalRevenue")]
+        [JsonConverter(typeof(LongParser))]
+        public long Revenue { get; set; }
+
+        [JsonPropertyName("ebit")]
+        [JsonConverter(typeof(LongParser))]
+        public long EBIT { get; set; }
+
+        [JsonPropertyName("ebitda")]
+        [JsonConverter(typeof(LongParser))]
+        public long EBITDA { get; set; }
     }
 }

@@ -29,8 +29,11 @@ namespace InvestmentApp.Tests.AlphaVantage
 
             // Assert
             Assert.NotEmpty(earnings);
-            Assert.Equal(2016, earnings.Last().Date.Year);
-            Assert.Equal(2.0675m, earnings.Last().EPS);
+            Assert.Equal(2017, earnings.Last().Date.Year);
+            Assert.Equal(88186000000, earnings.Last().Profit);
+            Assert.Equal(229234000000, earnings.Last().Revenue);
+            Assert.Equal(66412000000, earnings.Last().EBIT);
+            Assert.Equal(67612000000, earnings.Last().EBITDA);
         }
 
         [Fact]

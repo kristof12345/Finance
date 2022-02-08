@@ -4,6 +4,17 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>disable</Nullable>
+		<PackOnBuild>true</PackOnBuild>
+		<PackageId>Waikiki.Finance</PackageId>
+		<PackageVersion>1.0.1</PackageVersion>
+		<Authors>Papp Kristóf</Authors>
+		<Copyright>All rights reserved.</Copyright>
+		<Owners>Papp Kristof</Owners>
+		<Summary>Finance services based on AlphaVantage, EOD and Finnhub.</Summary>
+		<Title>Waikiki.Finance</Title>
+		<Description>Finance services based on AlphaVantage, EOD and Finnhub.</Description>
+		<PackageLicense>https://github.com/kristof12345/Common/blob/master/LEGAL.md</PackageLicense>
+		<PackageProjectUrl>https://github.com/kristof12345/Finance</PackageProjectUrl>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Waikiki.Common.Application" Version="2.4.7" />
@@ -25,8 +36,8 @@
 		<Folder Include="Converters\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Update="DataSeed\exchange.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
+		<None Update="DataSeed\exchange.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 </Project>

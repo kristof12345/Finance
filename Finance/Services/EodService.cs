@@ -16,7 +16,7 @@ namespace Finance.Services
 
         public EodService(EodSettings settings)
         {
-            client = new HttpClient { BaseAddress = new Uri("https://eodhistoricaldata.com/api/eod/") };
+            client = new HttpClient { BaseAddress = new Uri("https://eodhistoricaldata.com/api/") };
             token = settings.Token;
             limit = settings.Limit;
         }
@@ -29,7 +29,7 @@ namespace Finance.Services
 
             try
             {
-                var response = await client.GetAsync(symbol + "?" + query);
+                var response = await client.GetAsync("eod/" + symbol + "?" + query);
                 var data = await response.Content.ReadAsAsync<List<EodPrice>>();
                 return data.Where(p => p.Date >= limit).OrderByDescending(p => p.Date).ToIndicatorPriceModel(symbol);
             }
@@ -47,7 +47,7 @@ namespace Finance.Services
 
             try
             {
-                var response = await client.GetAsync(symbol + "?" + query);
+                var response = await client.GetAsync("eod/" + symbol + "?" + query);
                 var data = await response.Content.ReadAsAsync<List<EodPrice>>();
                 return data.OrderByDescending(p => p.Date).FirstOrDefault().ToIndicatorPriceModel(symbol);
             }

@@ -16,6 +16,6 @@ namespace Finance.Interfaces
 
         Task<IEnumerable<CurrencyPrice>> GetHistoricalCurrencyPrices(string symbol);
 
-        Task<IEnumerable<Earning>> GetEarnings(string symbol);
+        Task<IEnumerable<EarningReport>> GetEarnings(string symbol);
     }
 }

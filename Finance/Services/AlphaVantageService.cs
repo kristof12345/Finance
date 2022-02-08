@@ -131,18 +131,18 @@ namespace Finance.Services
             }
         }
 
-        public async Task<IEnumerable<Earning>> GetEarnings(string symbol)
+        public async Task<IEnumerable<EarningReport>> GetEarnings(string symbol)
         {
             var query = HttpUtility.ParseQueryString(string.Empty);
             query["apikey"] = token;
-            query["function"] = "EARNINGS";
+            query["function"] = "INCOME_STATEMENT";
             query["symbol"] = symbol;
 
             try
             {
                 var response = await client.GetAsync("query?" + query);
                 var data = await response.Content.ReadAsAsync<Earnings>();
-                return data.AnnualEarnings.Where(e => e.Date >= limit);
+                return data.AnnualReports.Where(e => e.Date >= limit);
             }
             catch (Exception)
             {
