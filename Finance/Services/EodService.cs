@@ -6,55 +6,54 @@ using Finance.Exceptions;
 using Finance.Models;
 using Finance.Converters;
 
-namespace Finance.Services
+namespace Finance.Services;
+
+public class EodService : IEodService
 {
-    public class EodService : IEodService
+    private readonly HttpClient client;
+    private readonly string token;
+    private readonly DateTime limit;
+
+    public EodService(EodSettings settings)
     {
-        private readonly HttpClient client;
-        private readonly string token;
-        private readonly DateTime limit;
+        client = new HttpClient { BaseAddress = new Uri("https://eodhistoricaldata.com/api/") };
+        token = settings.Token;
+        limit = settings.Limit;
+    }
 
-        public EodService(EodSettings settings)
+    public async Task<IEnumerable<IndicatorPrice>> GetHistoricalIndicatorPrices(string symbol)
+    {
+        var query = HttpUtility.ParseQueryString(string.Empty);
+        query["api_token"] = token;
+        query["fmt"] = "json";
+
+        try
         {
-            client = new HttpClient { BaseAddress = new Uri("https://eodhistoricaldata.com/api/") };
-            token = settings.Token;
-            limit = settings.Limit;
+            var response = await client.GetAsync("eod/" + symbol + "?" + query);
+            var data = await response.Content.ReadAsAsync<List<EodPrice>>();
+            return data.Where(p => p.Date >= limit).OrderByDescending(p => p.Date).ToIndicatorPriceModel(symbol);
         }
-
-        public async Task<IEnumerable<IndicatorPrice>> GetHistoricalIndicatorPrices(string symbol)
+        catch (Exception e)
         {
-            var query = HttpUtility.ParseQueryString(string.Empty);
-            query["api_token"] = token;
-            query["fmt"] = "json";
-
-            try
-            {
-                var response = await client.GetAsync("eod/" + symbol + "?" + query);
-                var data = await response.Content.ReadAsAsync<List<EodPrice>>();
-                return data.Where(p => p.Date >= limit).OrderByDescending(p => p.Date).ToIndicatorPriceModel(symbol);
-            }
-            catch (Exception)
-            {
-                throw new FinanceException("Error loading historical prices for: " + symbol);
-            }
+            throw new FinanceException("Error loading historical prices for " + symbol + ": " + e.Message);
         }
+    }
 
-        public async Task<IndicatorPrice> GetCurrentIndicatorPrice(string symbol)
+    public async Task<IndicatorPrice> GetCurrentIndicatorPrice(string symbol)
+    {
+        var query = HttpUtility.ParseQueryString(string.Empty);
+        query["api_token"] = token;
+        query["fmt"] = "json";
+
+        try
         {
-            var query = HttpUtility.ParseQueryString(string.Empty);
-            query["api_token"] = token;
-            query["fmt"] = "json";
-
-            try
-            {
-                var response = await client.GetAsync("eod/" + symbol + "?" + query);
-                var data = await response.Content.ReadAsAsync<List<EodPrice>>();
-                return data.OrderByDescending(p => p.Date).FirstOrDefault().ToIndicatorPriceModel(symbol);
-            }
-            catch (Exception)
-            {
-                throw new FinanceException("Error loading current price for: " + symbol);
-            }
+            var response = await client.GetAsync("eod/" + symbol + "?" + query);
+            var data = await response.Content.ReadAsAsync<List<EodPrice>>();
+            return data.OrderByDescending(p => p.Date).FirstOrDefault().ToIndicatorPriceModel(symbol);
+        }
+        catch (Exception e)
+        {
+            throw new FinanceException("Error loading current price for " + symbol + ": " + e.Message);
         }
     }
 }

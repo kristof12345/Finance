@@ -1,9 +1,6 @@
-﻿using System;
+﻿namespace Finance.Exceptions;
 
-namespace Finance.Exceptions
+public class FinanceException : Exception
 {
-    public class FinanceException : Exception
-    {
-        public FinanceException(string message) : base(message) { }
-    }
+    public FinanceException(string message) : base(message) { }
 }

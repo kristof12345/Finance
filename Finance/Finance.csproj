@@ -6,7 +6,7 @@
 		<Nullable>disable</Nullable>
 		<PackOnBuild>true</PackOnBuild>
 		<PackageId>Waikiki.Finance</PackageId>
-		<PackageVersion>1.0.1</PackageVersion>
+		<PackageVersion>1.1.1</PackageVersion>
 		<Authors>Papp Kristóf</Authors>
 		<Copyright>All rights reserved.</Copyright>
 		<Owners>Papp Kristof</Owners>
@@ -17,23 +17,7 @@
 		<PackageProjectUrl>https://github.com/kristof12345/Finance</PackageProjectUrl>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Waikiki.Common.Application" Version="2.4.7" />
-	</ItemGroup>
-	<ItemGroup>
-		<None Remove="Models\" />
-		<None Remove="Services\" />
-		<None Remove="Settings\" />
-		<None Remove="Interfaces\" />
-		<None Remove="Exceptions\" />
-		<None Remove="Converters\" />
-	</ItemGroup>
-	<ItemGroup>
-		<Folder Include="Models\" />
-		<Folder Include="Services\" />
-		<Folder Include="Settings\" />
-		<Folder Include="Interfaces\" />
-		<Folder Include="Exceptions\" />
-		<Folder Include="Converters\" />
+		<PackageReference Include="Waikiki.Common.Application" Version="2.6.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Update="DataSeed\exchange.json">

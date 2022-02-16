@@ -15,7 +15,7 @@ namespace InvestmentApp.Tests.AlphaVantage
 
         public FinnhubNewsTests()
         {
-            Finnhub = new FinnhubService(new FinnhubSettings { Token = "c80l402ad3id4r2t6l3g" });
+            Finnhub = new FinnhubService(new FinnhubSettings { Token = "sandbox_c80l402ad3id4r2t6l40" });
         }
 
         [Fact]
@@ -29,6 +29,22 @@ namespace InvestmentApp.Tests.AlphaVantage
 
             // Assert
             Assert.NotEmpty(news);
+            Assert.Equal(250, news.Count());
+            Assert.Equal(DateTime.Today, news.First().Date.Date);
+            Assert.NotEmpty(news.First().Headline);
+        }
+
+        [Fact]
+        public async Task GetMarketNewsTest()
+        {
+            // Act
+            var news = await Finnhub.GetMarketNews();
+
+            // Assert
+            Assert.NotEmpty(news);
+            Assert.Equal(100, news.Count());
+            Assert.Equal(DateTime.Today, news.First().Date.Date);
+            Assert.NotEmpty(news.First().Headline);
         }
     }
 }

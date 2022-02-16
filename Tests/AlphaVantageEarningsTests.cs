@@ -34,6 +34,7 @@ namespace InvestmentApp.Tests.AlphaVantage
             Assert.Equal(229234000000, earnings.Last().Revenue);
             Assert.Equal(66412000000, earnings.Last().EBIT);
             Assert.Equal(67612000000, earnings.Last().EBITDA);
+            Assert.Equal("AAPL", earnings.Last().StockId);
         }
 
         [Fact]
@@ -45,7 +46,7 @@ namespace InvestmentApp.Tests.AlphaVantage
             }
             catch (FinanceException ex)
             {
-                Assert.Equal("Error loading earnings for: invalid", ex.Message);
+                Assert.StartsWith("Error loading earnings for invalid", ex.Message);
             }
 
             await Assert.ThrowsAsync<FinanceException>(async () => await AlphaVantage.GetEarnings("invalid"));

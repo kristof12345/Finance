@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Finance.Models;
+﻿using Finance.Models;
 
-namespace Finance.Interfaces
+namespace Finance.Interfaces;
+
+public interface IEodService
 {
-    public interface IEodService
-    {
-        Task<IndicatorPrice> GetCurrentIndicatorPrice(string symbol);
+    Task<IndicatorPrice> GetCurrentIndicatorPrice(string symbol);
 
-        Task<IEnumerable<IndicatorPrice>> GetHistoricalIndicatorPrices(string symbol);
-    }
+    Task<IEnumerable<IndicatorPrice>> GetHistoricalIndicatorPrices(string symbol);
 }

@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Finance.Models;
 
-namespace Finance.Interfaces
+namespace Finance.Interfaces;
+
+public interface IFinnhubService
 {
-    public interface IFinnhubService
-    {
-        Task<List<News>> GetCompanyNews(string symbol);
-    }
+    Task<IEnumerable<News>> GetMarketNews();
+
+    Task<IEnumerable<News>> GetCompanyNews(string symbol);
+
+    Task<List<Recommendation>> GetRecommendationTrends(string symbol);
 }

@@ -56,7 +56,7 @@ namespace InvestmentApp.Tests.AlphaVantage
             }
             catch (FinanceException ex)
             {
-                Assert.Equal("Error loading company info for: invalid", ex.Message);
+                Assert.StartsWith("Error loading company info for invalid", ex.Message);
             }
 
             await Assert.ThrowsAsync<FinanceException>(async () => await AlphaVantage.GetStockOverview("invalid"));
@@ -102,7 +102,7 @@ namespace InvestmentApp.Tests.AlphaVantage
             }
             catch (FinanceException ex)
             {
-                Assert.Equal("Error loading historical prices for: invalid", ex.Message);
+                Assert.StartsWith("Error loading historical prices for invalid", ex.Message);
             }
 
             await Assert.ThrowsAsync<FinanceException>(async () => await AlphaVantage.GetHistoricalStockPrices("invalid"));
@@ -138,7 +138,7 @@ namespace InvestmentApp.Tests.AlphaVantage
             }
             catch (FinanceException ex)
             {
-                Assert.Equal("Error loading current price for: invalid", ex.Message);
+                Assert.StartsWith("Error loading current price for invalid", ex.Message);
             }
 
             await Assert.ThrowsAsync<FinanceException>(async () => await AlphaVantage.GetCurrentStockPrice("invalid"));

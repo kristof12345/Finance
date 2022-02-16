@@ -1,17 +1,21 @@
-﻿namespace Finance.Models
+﻿using System.Text.Json.Serialization;
+using Common.Application;
+
+namespace Finance.Models;
+
+public class News
 {
-    public class News
-    {
-        public string Headline { get; set; }
+    public string Headline { get; set; }
 
-        public string Image { get; set; }
+    public string Image { get; set; }
 
-        public string Source { get; set; }
+    public string Source { get; set; }
 
-        public string Summary { get; set; }
+    public string Summary { get; set; }
 
-        public string Url { get; set; }
+    public string Url { get; set; }
 
-        //public DateTime Datetime { get; set; }
-    }
+    [JsonPropertyName("datetime")]
+    [JsonConverter(typeof(TimeParser))]
+    public DateTime Date { get; set; }
 }

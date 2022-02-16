@@ -86,7 +86,7 @@ namespace InvestmentApp.Tests.AlphaVantage
             }
             catch (FinanceException ex)
             {
-                Assert.Equal("Error loading historical prices for: invalid", ex.Message);
+                Assert.StartsWith("Error loading historical prices for invalid", ex.Message);
             }
 
             await Assert.ThrowsAsync<FinanceException>(async () => await AlphaVantage.GetHistoricalCurrencyPrices("invalid"));
