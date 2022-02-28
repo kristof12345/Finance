@@ -16,6 +16,6 @@
 * Get daily indicator price
 
 ## Finnhub
-Get company news
-Get sector news
-Get recommendation trends
+* Get company news
+* Get sector news
+* Get recommendation trends

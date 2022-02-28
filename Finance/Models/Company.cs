@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-using Common.Application;
+using Common.Backend;
 
 namespace Finance.Models;
 
