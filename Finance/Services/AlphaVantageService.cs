@@ -95,6 +95,11 @@ public class AlphaVantageService : IAlphaVantageService
 
         try
         {
+            if (symbol == "WUD")
+            {
+                return new List<CurrencyPrice> { new CurrencyPrice { CurrencyId = "WUD", Date = new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc), Open = 1, High = 1, Low = 1, Close = 1 } };
+            }
+
             if (symbol == "USD")
             {
                 return exchange.Where(p => p.Date >= limit);

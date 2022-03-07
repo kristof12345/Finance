@@ -5,6 +5,8 @@ namespace Finance.Models;
 
 public class Recommendation
 {
+    public string StockId { get; set; }
+
     [JsonConverter(typeof(IntParser))]
     public int StrongBuy { get; set; }
 

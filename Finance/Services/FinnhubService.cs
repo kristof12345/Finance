@@ -4,6 +4,7 @@ using Finance.Interfaces;
 using Finance.Settings;
 using Finance.Exceptions;
 using Finance.Models;
+using Finance.Converters;
 
 namespace Finance.Services;
 
@@ -55,7 +56,7 @@ public class FinnhubService : IFinnhubService
         }
     }
 
-    public async Task<List<Recommendation>> GetRecommendationTrends(string symbol)
+    public async Task<IEnumerable<Recommendation>> GetRecommendationTrends(string symbol)
     {
         var query = HttpUtility.ParseQueryString(string.Empty);
         query["token"] = token;
@@ -64,7 +65,8 @@ public class FinnhubService : IFinnhubService
         try
         {
             var response = await client.GetAsync("stock/recommendation?" + query);
-            return await response.Content.ReadAsAsync<List<Recommendation>>();
+            var trends = await response.Content.ReadAsAsync<List<Recommendation>>();
+            return trends.ToModel(symbol);
         }
         catch (Exception e)
         {

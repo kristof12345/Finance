@@ -1,8 +1,8 @@
-﻿using Common.Application;
+﻿using Finance.Models;
 
 namespace Finance.Interfaces;
 
 public interface INasdaqDataService
 {
-    Task<IEnumerable<ITemporalValue>> GetInflation(string country);
+    Task<IEnumerable<PriceIndex>> GetInflation(string country, string currency);
 }

@@ -87,4 +87,23 @@ public static class AlphaVantageConverter
     {
         return prices.Select(p => p.ToEarningsModel(symbol));
     }
+
+    public static Recommendation ToModel(this Recommendation dto, string symbol)
+    {
+        return new Recommendation
+        {
+            StockId = symbol,
+            StrongBuy = dto.StrongBuy,
+            Buy = dto.Buy,
+            Hold = dto.Hold,
+            Sell = dto.Sell,
+            StrongSell = dto.StrongSell,
+            Date = DateTime.SpecifyKind(dto.Date, DateTimeKind.Utc)
+        };
+    }
+
+    public static IEnumerable<Recommendation> ToModel(this IEnumerable<Recommendation> prices, string symbol)
+    {
+        return prices.Select(p => p.ToModel(symbol));
+    }
 }

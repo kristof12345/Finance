@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Finance.Exceptions;
+﻿using System.Threading.Tasks;
 using Finance.Interfaces;
 using Finance.Services;
 using Finance.Settings;
