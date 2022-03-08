@@ -31,7 +31,7 @@ public class EodService : IEodService
         {
             var response = await client.GetAsync("eod/" + symbol + "?" + query);
             var data = await response.Content.ReadAsAsync<List<EodPrice>>();
-            return data.Where(p => p.Date >= limit).OrderByDescending(p => p.Date).ToIndicatorPriceModel(symbol);
+            return data.Where(p => p.Date >= limit).OrderByDescending(p => p.Date).ToIndicatorPrice(symbol);
         }
         catch (Exception e)
         {
@@ -49,7 +49,7 @@ public class EodService : IEodService
         {
             var response = await client.GetAsync("eod/" + symbol + "?" + query);
             var data = await response.Content.ReadAsAsync<List<EodPrice>>();
-            return data.OrderByDescending(p => p.Date).FirstOrDefault().ToIndicatorPriceModel(symbol);
+            return data.OrderByDescending(p => p.Date).FirstOrDefault().ToIndicatorPrice(symbol);
         }
         catch (Exception e)
         {

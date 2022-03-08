@@ -15,7 +15,7 @@ namespace InvestmentApp.Tests.AlphaVantage
 
         public AlphaVantageStockTests()
         {
-            AlphaVantage = new AlphaVantageService(new AlphaVantageSettings { Token = "RS8FSX71XMIDQC89", Size = "full", Limit = new DateTime(2016, 1, 1) });
+            AlphaVantage = new AlphaVantageService(new AlphaVantageSettings { Token = "RS8FSX71XMIDQC89", Limit = new DateTime(2016, 1, 1) });
         }
 
         [Fact]

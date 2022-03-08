@@ -20,8 +20,8 @@
 		<PackageReference Include="Waikiki.Common.Backend" Version="2.7.2" />
 	</ItemGroup>
 	<ItemGroup>
-		<None Update="DataSeed\exchange.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		<None Update="Data\exchange.json">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
 </Project>

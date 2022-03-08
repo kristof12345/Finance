@@ -10,9 +10,9 @@ public interface IAlphaVantageService
 
     Task<IEnumerable<StockPrice>> GetHistoricalStockPrices(string symbol);
 
-    Task<CurrencyPrice> GetCurrentCurrencyPrice(string symbol);
+    Task<CurrencyPrice> GetCurrentCurrencyPrice(string symbol, List<CurrencyPrice> exchange);
 
-    Task<IEnumerable<CurrencyPrice>> GetHistoricalCurrencyPrices(string symbol);
+    Task<IEnumerable<CurrencyPrice>> GetHistoricalCurrencyPrices(string symbol, List<CurrencyPrice> exchange);
 
     Task<IEnumerable<EarningReport>> GetEarnings(string symbol);
 }

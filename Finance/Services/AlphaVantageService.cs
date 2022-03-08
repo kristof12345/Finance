@@ -1,6 +1,5 @@
 ﻿using System.Web;
 using Common.Application;
-using System.Text.Json;
 using Finance.Interfaces;
 using Finance.Settings;
 using Finance.Exceptions;
@@ -13,17 +12,13 @@ public class AlphaVantageService : IAlphaVantageService
 {
     private readonly HttpClient client;
     private readonly string token;
-    private readonly string size;
     private readonly DateTime limit;
-    private readonly List<CurrencyPrice> exchange;
 
     public AlphaVantageService(AlphaVantageSettings settings)
     {
         client = new HttpClient { BaseAddress = new Uri("https://www.alphavantage.co/") };
         token = settings.Token;
-        size = settings.Size;
         limit = settings.Limit;
-        exchange = JsonSerializer.Deserialize<List<CurrencyPrice>>(File.ReadAllText("DataSeed/exchange.json"));
     }
 
     public async Task<Company> GetStockOverview(string symbol)
@@ -50,14 +45,14 @@ public class AlphaVantageService : IAlphaVantageService
         var query = HttpUtility.ParseQueryString(string.Empty);
         query["apikey"] = token;
         query["function"] = "TIME_SERIES_DAILY_ADJUSTED";
+        query["outputsize"] = "full";
         query["symbol"] = symbol;
-        query["outputsize"] = size;
 
         try
         {
             var response = await client.GetAsync("query?" + query);
             var data = await response.Content.ReadAsAsync<StockPrices>();
-            return data.Prices.Where(p => p.Key >= limit).OrderByDescending(p => p.Key).ToStockPriceModel(symbol);
+            return data.Prices.Where(p => p.Key >= limit).OrderByDescending(p => p.Key).ToStockPrice(symbol, new List<CurrencyPrice> { CurrencyPrice.Default });
         }
         catch (Exception e)
         {
@@ -76,7 +71,7 @@ public class AlphaVantageService : IAlphaVantageService
         {
             var response = await client.GetAsync("query?" + query);
             var data = await response.Content.ReadAsAsync<StockPrices>();
-            return data.Prices.OrderByDescending(p => p.Key).First().ToStockPriceModel(symbol, CurrencyPrice.Default);
+            return data.Prices.OrderByDescending(p => p.Key).First().ToStockPrice(symbol, CurrencyPrice.Default);
         }
         catch (Exception e)
         {
@@ -84,14 +79,14 @@ public class AlphaVantageService : IAlphaVantageService
         }
     }
 
-    public async Task<IEnumerable<CurrencyPrice>> GetHistoricalCurrencyPrices(string symbol)
+    public async Task<IEnumerable<CurrencyPrice>> GetHistoricalCurrencyPrices(string symbol, List<CurrencyPrice> exchange)
     {
         var query = HttpUtility.ParseQueryString(string.Empty);
         query["apikey"] = token;
         query["function"] = "FX_DAILY";
-        query["from_symbol"] = symbol;
+        query["outputsize"] = "full";
         query["to_symbol"] = "USD";
-        query["outputsize"] = size;
+        query["from_symbol"] = symbol;
 
         try
         {
@@ -107,7 +102,7 @@ public class AlphaVantageService : IAlphaVantageService
 
             var response = await client.GetAsync("query?" + query);
             var data = await response.Content.ReadAsAsync<CurrencyPrices>();
-            return data.Prices.Where(p => p.Key >= limit).ToCurrencyPriceModel(symbol, exchange);
+            return data.Prices.Where(p => p.Key >= limit).ToCurrencyPrice(symbol, exchange);
         }
         catch (Exception e)
         {
@@ -115,19 +110,19 @@ public class AlphaVantageService : IAlphaVantageService
         }
     }
 
-    public async Task<CurrencyPrice> GetCurrentCurrencyPrice(string symbol)
+    public async Task<CurrencyPrice> GetCurrentCurrencyPrice(string symbol, List<CurrencyPrice> exchange)
     {
         var query = HttpUtility.ParseQueryString(string.Empty);
         query["apikey"] = token;
         query["function"] = "FX_DAILY";
-        query["from_symbol"] = symbol;
         query["to_symbol"] = "USD";
+        query["from_symbol"] = symbol;
 
         try
         {
             var response = await client.GetAsync("query?" + query);
             var data = await response.Content.ReadAsAsync<CurrencyPrices>();
-            return data.Prices.OrderByDescending(p => p.Key).First().ToCurrencyPriceModel(symbol, exchange.Latest(DateTime.Now));
+            return data.Prices.OrderByDescending(p => p.Key).First().ToCurrencyPrice(symbol, exchange.Latest(DateTime.Now));
         }
         catch (Exception e)
         {

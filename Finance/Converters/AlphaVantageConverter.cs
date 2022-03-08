@@ -5,7 +5,7 @@ namespace Finance.Converters;
 
 public static class AlphaVantageConverter
 {
-    public static StockPrice ToStockPriceModel(this KeyValuePair<DateTime, DailyPrice> dto, string symbol, CurrencyPrice exchangeRate, int split = 1)
+    public static StockPrice ToStockPrice(this KeyValuePair<DateTime, DailyPrice> dto, string symbol, CurrencyPrice exchangeRate, int split = 1)
     {
         return new StockPrice
         {
@@ -21,22 +21,21 @@ public static class AlphaVantageConverter
         };
     }
 
-    public static IEnumerable<StockPrice> ToStockPriceModel(this IEnumerable<KeyValuePair<DateTime, DailyPrice>> prices, string symbol, List<CurrencyPrice> exchangeRates = null)
+    public static IEnumerable<StockPrice> ToStockPrice(this IEnumerable<KeyValuePair<DateTime, DailyPrice>> prices, string symbol, List<CurrencyPrice> exchangeRates)
     {
-        exchangeRates ??= new List<CurrencyPrice> { CurrencyPrice.Default };
         var results = new List<StockPrice>();
         int split = 1;
 
         foreach (var price in prices)
         {
-            results.Add(price.ToStockPriceModel(symbol, exchangeRates.Latest(price.Key), split));
+            results.Add(price.ToStockPrice(symbol, exchangeRates.Latest(price.Key), split));
             split *= (int)price.Value.Split;
         }
 
         return results;
     }
 
-    public static CurrencyPrice ToCurrencyPriceModel(this KeyValuePair<DateTime, DailyPrice> dto, string symbol, CurrencyPrice exchangeRate)
+    public static CurrencyPrice ToCurrencyPrice(this KeyValuePair<DateTime, DailyPrice> dto, string symbol, CurrencyPrice exchangeRate)
     {
         return new CurrencyPrice
         {
@@ -49,13 +48,12 @@ public static class AlphaVantageConverter
         };
     }
 
-    public static IEnumerable<CurrencyPrice> ToCurrencyPriceModel(this IEnumerable<KeyValuePair<DateTime, DailyPrice>> prices, string symbol, List<CurrencyPrice> exchangeRates = null)
+    public static IEnumerable<CurrencyPrice> ToCurrencyPrice(this IEnumerable<KeyValuePair<DateTime, DailyPrice>> prices, string symbol, List<CurrencyPrice> exchangeRates)
     {
-        exchangeRates ??= new List<CurrencyPrice> { CurrencyPrice.Default };
-        return prices.Select(pair => pair.ToCurrencyPriceModel(symbol, exchangeRates.Latest(pair.Key)));
+        return prices.Select(pair => pair.ToCurrencyPrice(symbol, exchangeRates.Latest(pair.Key)));
     }
 
-    public static IndicatorPrice ToIndicatorPriceModel(this EodPrice dto, string symbol)
+    public static IndicatorPrice ToIndicatorPrice(this EodPrice dto, string symbol)
     {
         return new IndicatorPrice
         {
@@ -65,9 +63,9 @@ public static class AlphaVantageConverter
         };
     }
 
-    public static IEnumerable<IndicatorPrice> ToIndicatorPriceModel(this IEnumerable<EodPrice> prices, string symbol)
+    public static IEnumerable<IndicatorPrice> ToIndicatorPrice(this IEnumerable<EodPrice> prices, string symbol)
     {
-        return prices.Select(p => p.ToIndicatorPriceModel(symbol));
+        return prices.Select(p => p.ToIndicatorPrice(symbol));
     }
 
     public static EarningReport ToEarningsModel(this EarningReport dto, string symbol)
