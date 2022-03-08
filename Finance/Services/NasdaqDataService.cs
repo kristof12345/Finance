@@ -11,11 +11,13 @@ public class NasdaqDataService : INasdaqDataService
 {
     private readonly HttpClient client;
     private readonly string token;
+    private readonly DateTime limit;
 
     public NasdaqDataService(NasdaqDataSettings settings)
     {
         client = new HttpClient { BaseAddress = new Uri("https://data.nasdaq.com/api/v3/datasets/") };
         token = settings.Token;
+        limit = settings.Limit;
     }
 
     public async Task<IEnumerable<PriceIndex>> GetInflation(string country, string currency)
@@ -32,7 +34,7 @@ public class NasdaqDataService : INasdaqDataService
 
             var response = await client.GetAsync("RATEINF/CPI_" + country + ".json?" + query);
             var data = await response.Content.ReadAsAsync<InflationData>();
-            return data.Dataset.Data.Select(d => new PriceIndex { Date = DateTime.SpecifyKind(d.First().GetDateTime(), DateTimeKind.Utc), Value = d.Last().GetDecimal(), CurrencyId = currency });
+            return data.Dataset.Data.Select(d => new PriceIndex { Date = DateTime.SpecifyKind(d.First().GetDateTime(), DateTimeKind.Utc), Value = d.Last().GetDecimal(), CurrencyId = currency }).Where(d => d.Date >= limit);
         }
         catch (Exception e)
         {
