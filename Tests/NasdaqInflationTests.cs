@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Finance.Exceptions;
 using Finance.Interfaces;
 using Finance.Services;
 using Finance.Settings;
@@ -43,6 +44,21 @@ namespace InvestmentApp.Tests.AlphaVantage
             await Nasdaq.GetInflation("GBR", String.Empty);
             await Nasdaq.GetInflation("USA", String.Empty);
             await Nasdaq.GetInflation("WAI", String.Empty);
+        }
+
+        [Fact]
+        public async Task InvalidInflationTest()
+        {
+            try
+            {
+                await Nasdaq.GetInflation("invalid", "USD");
+            }
+            catch (FinanceException ex)
+            {
+                Assert.StartsWith("Error loading inflation for invalid", ex.Message);
+            }
+
+            await Assert.ThrowsAsync<FinanceException>(async () => await Nasdaq.GetInflation("invalid", "USD"));
         }
     }
 }

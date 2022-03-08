@@ -6,7 +6,7 @@
 		<Nullable>disable</Nullable>
 		<PackOnBuild>true</PackOnBuild>
 		<PackageId>Waikiki.Finance</PackageId>
-		<PackageVersion>1.2.7</PackageVersion>
+		<PackageVersion>1.2.8</PackageVersion>
 		<Authors>Papp Kristóf</Authors>
 		<Copyright>All rights reserved.</Copyright>
 		<Owners>Papp Kristof</Owners>

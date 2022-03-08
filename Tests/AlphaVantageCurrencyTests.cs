@@ -53,6 +53,24 @@ namespace InvestmentApp.Tests.AlphaVantage
         }
 
         [Fact]
+        public async Task WUDExchangeRateTest()
+        {
+            // Arrange
+            var symbol = "WUD";
+
+            // Act
+            var prices = await AlphaVantage.GetHistoricalCurrencyPrices(symbol, JsonSerializer.Deserialize<List<CurrencyPrice>>(File.ReadAllText("Data/exchange.json")));
+
+            // Assert
+            Assert.NotEmpty(prices);
+            Assert.Single(prices);
+            Assert.Equal(1, prices.First().Open);
+            Assert.Equal(1, prices.First().High);
+            Assert.Equal(1, prices.First().Low);
+            Assert.Equal(1, prices.First().Close);
+        }
+
+        [Fact]
         public async Task GetHistoricalCurrencyPricesTest()
         {
             // Arrange
@@ -79,6 +97,39 @@ namespace InvestmentApp.Tests.AlphaVantage
                 Assert.True(price.Close <= price.High);
                 Assert.Equal(DateTimeKind.Utc, price.Date.Kind);
             }
+        }
+
+        [Fact]
+        public async Task GetCurrentCurrencyPriceTest()
+        {
+            // Arrange
+            var symbol = "EUR";
+
+            // Act
+            var price = await AlphaVantage.GetCurrentCurrencyPrice(symbol, JsonSerializer.Deserialize<List<CurrencyPrice>>(File.ReadAllText("Data/exchange.json")));
+
+            // Assert
+            Assert.NotNull(price);
+            Assert.Equal(DateTime.Today, price.Date);
+            Assert.NotEqual(0, price.Open);
+            Assert.NotEqual(0, price.High);
+            Assert.NotEqual(0, price.Low);
+            Assert.NotEqual(0, price.Close);
+        }
+
+        [Fact]
+        public async Task InvalidCurrencyPriceTest()
+        {
+            try
+            {
+                await AlphaVantage.GetCurrentCurrencyPrice("invalid", JsonSerializer.Deserialize<List<CurrencyPrice>>(File.ReadAllText("Data/exchange.json")));
+            }
+            catch (FinanceException ex)
+            {
+                Assert.StartsWith("Error loading current price for invalid", ex.Message);
+            }
+
+            await Assert.ThrowsAsync<FinanceException>(async () => await AlphaVantage.GetCurrentCurrencyPrice("invalid", JsonSerializer.Deserialize<List<CurrencyPrice>>(File.ReadAllText("Data/exchange.json"))));
         }
 
         [Fact]
