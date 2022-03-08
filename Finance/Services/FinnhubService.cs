@@ -12,11 +12,13 @@ public class FinnhubService : IFinnhubService
 {
     private readonly HttpClient client;
     private readonly string token;
+    private readonly DateTime limit;
 
     public FinnhubService(FinnhubSettings settings)
     {
         client = new HttpClient { BaseAddress = new Uri("https://finnhub.io/api/v1/") };
         token = settings.Token;
+        limit = settings.Limit;
     }
 
     public async Task<IEnumerable<News>> GetCompanyNews(string symbol)
@@ -31,7 +33,7 @@ public class FinnhubService : IFinnhubService
         {
             var response = await client.GetAsync("company-news?" + query);
             var news = await response.Content.ReadAsAsync<List<News>>();
-            return news.Where(n => !string.IsNullOrWhiteSpace(n.Image));
+            return news.Where(n => !string.IsNullOrWhiteSpace(n.Image) && n.Date >= limit);
         }
         catch (Exception e)
         {
@@ -48,7 +50,8 @@ public class FinnhubService : IFinnhubService
         try
         {
             var response = await client.GetAsync("news?" + query);
-            return await response.Content.ReadAsAsync<List<News>>();
+            var news = await response.Content.ReadAsAsync<List<News>>();
+            return news.Where(n => !string.IsNullOrWhiteSpace(n.Image) && n.Date >= limit);
         }
         catch (Exception e)
         {

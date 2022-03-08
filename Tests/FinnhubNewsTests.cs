@@ -15,7 +15,7 @@ namespace InvestmentApp.Tests.AlphaVantage
 
         public FinnhubNewsTests()
         {
-            Finnhub = new FinnhubService(new FinnhubSettings { Token = "sandbox_c80l402ad3id4r2t6l40" });
+            Finnhub = new FinnhubService(new FinnhubSettings { Token = "sandbox_c80l402ad3id4r2t6l40", Limit = DateTime.Today.AddDays(-7) });
         }
 
         [Fact]

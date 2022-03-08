@@ -63,10 +63,6 @@ public class Company
     [JsonConverter(typeof(DecimalParser))]
     public decimal Dividend { get; set; }
 
-    [JsonPropertyName("ForwardAnnualDividendRate")]
-    [JsonConverter(typeof(DecimalParser))]
-    public decimal ForwardDividend { get; set; }
-
     [JsonPropertyName("Beta")]
     [JsonConverter(typeof(DecimalParser))]
     public decimal Beta { get; set; }
