@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Finance.Exceptions;
 using Finance.Interfaces;
 using Finance.Services;
 using Finance.Settings;
@@ -30,6 +31,36 @@ namespace InvestmentApp.Tests.AlphaVantage
             Assert.NotEmpty(prices);
             Assert.InRange(prices.Last().Date, DateTime.Today.AddYears(-1).AddDays(-3), DateTime.Today.AddYears(-1).AddDays(3));
             Assert.InRange(prices.Last().Value, 3000, 5000);
+        }
+
+        [Fact]
+        public async Task InvalidIndicatorPriceTest()
+        {
+            try
+            {
+                await Eod.GetCurrentIndicatorPrice("invalid");
+            }
+            catch (FinanceException ex)
+            {
+                Assert.StartsWith("Error loading current price for invalid", ex.Message);
+            }
+
+            await Assert.ThrowsAsync<FinanceException>(async () => await Eod.GetCurrentIndicatorPrice("invalid"));
+        }
+
+        [Fact]
+        public async Task InvalidIndicatorPricesTest()
+        {
+            try
+            {
+                await Eod.GetHistoricalIndicatorPrices("invalid");
+            }
+            catch (FinanceException ex)
+            {
+                Assert.StartsWith("Error loading historical prices for invalid", ex.Message);
+            }
+
+            await Assert.ThrowsAsync<FinanceException>(async () => await Eod.GetHistoricalIndicatorPrices("invalid"));
         }
     }
 }

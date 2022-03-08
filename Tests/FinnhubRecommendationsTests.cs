@@ -27,5 +27,14 @@ namespace InvestmentApp.Tests.AlphaVantage
             // Assert
             Assert.NotEmpty(recommendations);
         }
+
+        [Fact]
+        public async Task InvalidRecommendationsTest()
+        {
+
+            var recommendations = await Finnhub.GetRecommendationTrends("invalid");
+            Assert.NotNull(recommendations);
+            Assert.Empty(recommendations);
+        }
     }
 }

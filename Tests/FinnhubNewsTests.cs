@@ -46,5 +46,14 @@ namespace InvestmentApp.Tests.AlphaVantage
             Assert.Equal(DateTime.Today, news.First().Date.Date);
             Assert.NotEmpty(news.First().Headline);
         }
+
+        [Fact]
+        public async Task InvalidNewsTest()
+        {
+
+            var news = await Finnhub.GetCompanyNews("invalid");
+            Assert.NotNull(news);
+            Assert.Empty(news);
+        }
     }
 }
