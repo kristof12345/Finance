@@ -31,7 +31,6 @@ namespace InvestmentApp.Tests.AlphaVantage
         [Fact]
         public async Task InvalidRecommendationsTest()
         {
-
             var recommendations = await Finnhub.GetRecommendationTrends("invalid");
             Assert.NotNull(recommendations);
             Assert.Empty(recommendations);
