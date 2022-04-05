@@ -48,11 +48,18 @@ namespace InvestmentApp.Tests.AlphaVantage
         }
 
         [Fact]
-        public async Task InvalidNewsTest()
+        public async Task InvalidCompanyNewsTest()
         {
-            var news = await Finnhub.GetCompanyNews("invalid");
-            Assert.NotNull(news);
-            Assert.Empty(news);
+            try
+            {
+                await Finnhub.GetCompanyNews("invalid");
+            }
+            catch (FinanceException ex)
+            {
+                Assert.StartsWith("Error loading company news for invalid", ex.Message);
+            }
+
+            await Assert.ThrowsAsync<FinanceException>(async () => await Finnhub.GetCompanyNews("invalid"));
         }
     }
 }

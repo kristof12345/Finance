@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Finance.Exceptions;
 using Finance.Interfaces;
 using Finance.Services;
 using Finance.Settings;
@@ -31,9 +32,16 @@ namespace InvestmentApp.Tests.AlphaVantage
         [Fact]
         public async Task InvalidRecommendationsTest()
         {
-            var recommendations = await Finnhub.GetRecommendationTrends("invalid");
-            Assert.NotNull(recommendations);
-            Assert.Empty(recommendations);
+            try
+            {
+                await Finnhub.GetRecommendationTrends("invalid");
+            }
+            catch (FinanceException ex)
+            {
+                Assert.StartsWith("Error loading recommendations for invalid", ex.Message);
+            }
+
+            await Assert.ThrowsAsync<FinanceException>(async () => await Finnhub.GetRecommendationTrends("invalid"));
         }
     }
 }

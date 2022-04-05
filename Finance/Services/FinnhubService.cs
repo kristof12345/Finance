@@ -33,6 +33,7 @@ public class FinnhubService : IFinnhubService
         {
             var response = await client.GetAsync("company-news?" + query);
             var news = await response.Content.ReadAsAsync<List<News>>();
+            if (news.Empty()) throw new Exception("Empty news.");
             return news.Where(n => !string.IsNullOrWhiteSpace(n.Image) && n.Date >= limit);
         }
         catch (Exception e)
@@ -51,6 +52,7 @@ public class FinnhubService : IFinnhubService
         {
             var response = await client.GetAsync("news?" + query);
             var news = await response.Content.ReadAsAsync<List<News>>();
+            if (news.Empty()) throw new Exception("Empty news.");
             return news.Where(n => !string.IsNullOrWhiteSpace(n.Image) && n.Date >= limit);
         }
         catch (Exception e)
@@ -69,6 +71,7 @@ public class FinnhubService : IFinnhubService
         {
             var response = await client.GetAsync("stock/recommendation?" + query);
             var trends = await response.Content.ReadAsAsync<List<Recommendation>>();
+            if (trends.Empty()) throw new Exception("Empty trends.");
             return trends.ToModel(symbol);
         }
         catch (Exception e)

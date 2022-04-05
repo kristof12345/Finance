@@ -49,7 +49,7 @@ public class EodService : IEodService
         {
             var response = await client.GetAsync("eod/" + symbol + "?" + query);
             var data = await response.Content.ReadAsAsync<List<EodPrice>>();
-            return data.OrderByDescending(p => p.Date).FirstOrDefault().ToIndicatorPrice(symbol);
+            return data.OrderByDescending(p => p.Date).First().ToIndicatorPrice(symbol);
         }
         catch (Exception e)
         {
