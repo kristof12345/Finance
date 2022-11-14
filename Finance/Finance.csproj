@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net7.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>disable</Nullable>
 		<PackOnBuild>true</PackOnBuild>
 		<PackageId>Waikiki.Finance</PackageId>
-		<PackageVersion>1.2.9</PackageVersion>
+		<PackageVersion>3.0.0</PackageVersion>
 		<Authors>Papp Kristóf</Authors>
 		<Copyright>All rights reserved.</Copyright>
 		<Owners>Papp Kristof</Owners>
@@ -17,7 +17,7 @@
 		<PackageProjectUrl>https://github.com/kristof12345/Finance</PackageProjectUrl>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Waikiki.Common.Backend" Version="2.8.0" />
+		<PackageReference Include="Waikiki.Common.Backend" Version="3.0.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Update="Data\exchange.json">
