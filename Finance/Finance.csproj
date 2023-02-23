@@ -6,7 +6,7 @@
 		<Nullable>disable</Nullable>
 		<PackOnBuild>true</PackOnBuild>
 		<PackageId>Waikiki.Finance</PackageId>
-		<PackageVersion>3.0.0</PackageVersion>
+		<PackageVersion>3.0.9</PackageVersion>
 		<Authors>Papp Kristóf</Authors>
 		<Copyright>All rights reserved.</Copyright>
 		<Owners>Papp Kristof</Owners>
@@ -17,7 +17,7 @@
 		<PackageProjectUrl>https://github.com/kristof12345/Finance</PackageProjectUrl>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Waikiki.Common.Backend" Version="3.0.0" />
+		<PackageReference Include="Waikiki.Common.Backend" Version="3.0.9" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Update="Data\exchange.json">
